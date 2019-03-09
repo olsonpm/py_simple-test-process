@@ -1,5 +1,43 @@
 [[package]]
 category = "main"
+description = "A dict that works with both hashable and non-hashable keys"
+name = "all-purpose-dict"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.1.3"
+
+[package.dependencies]
+ordered_set = ">=3.1,<4.0"
+wrapt = ">=1.10,<2.0"
+
+[[package]]
+category = "main"
+description = "A set that works with both hashable and non-hashable elements"
+name = "all-purpose-set"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.1.5"
+
+[package.dependencies]
+ordered_set = ">=3.1,<4.0"
+tedent = ">=0.1.1,<0.2.0"
+wrapt = ">=1.10,<2.0"
+
+[[package]]
+category = "main"
+description = "A linked list with an api and documentation more to my liking"
+name = "another-linked-list"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.1.0"
+
+[package.dependencies]
+all_purpose_set = ">=0.1.3,<0.2.0"
+ordered_set = ">=3.1,<4.0"
+wrapt = ">=1.10,<2.0"
+
+[[package]]
+category = "main"
 description = "Convert between different types of cases (unicode supported)"
 name = "case-conversion"
 optional = false
@@ -46,6 +84,21 @@ version = "3.1"
 
 [[package]]
 category = "main"
+description = "A pretty printer for SimpleNamespace"
+name = "pretty-simple-namespace"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.1.0"
+
+[package.dependencies]
+all_purpose_dict = ">=0.1.2,<0.2.0"
+all_purpose_set = ">=0.1.4,<0.2.0"
+another_linked_list = ">=0.1.0,<0.2.0"
+ordered_set = ">=3.1,<4.0"
+wrapt = ">=1.10,<2.0"
+
+[[package]]
+category = "main"
 description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
@@ -89,15 +142,19 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "9d6e22a3d12fb1af301cfef21d1712df8bfedea4019909e567f44e59c1fb5a5a"
+content-hash = "ca15a406c6d612413a77f07ab3944e1693b4558a430a75352ff2f96d4c6c98c5"
 python-versions = "^3.7"
 
 [metadata.hashes]
+all-purpose-dict = ["88d68eb843ff86ed4139b5c65ac4d4110cd49c928943fed2c8ce315675596d16", "96ff9974050f7694859b4c4d435697c7de0d741f2281cb018f9a2877bf277c6c"]
+all-purpose-set = ["89c08544a64b96e37e00c93cfe005f1562c0ad3b58a161bd28b06f1e60e77ab6", "8afcdf437a0267003112d11862fbdc4b8437c8fba5e4e98e9acf8e22ab175c92"]
+another-linked-list = ["1201c487a3752fb36bad5d17d917431c04105b453c51eac07a0ab5b84ef7479b", "b9c494a3c6b7de124a9ac1d9fd92e20c7dc608c12dc659a6acfef81b097b56cc"]
 case-conversion = ["4114aaed4213f2235f1648502fd1793e5fdfa3fa86f85979fd2d0dce1584e197"]
 docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
 is-git-repo-clean = ["608c8585be23478af5c6c68e53f4a8ddd1320d3dd478ebc894c07ab6b702dc00", "c33ec4893389943c6f2b7351ff65904726640861b444ec37b3afb8870a9917fa"]
 num2words = ["60ba89db4913820885e6974cf329d9a02846f3b612c383fbbb2b66997cc1f6e1", "f923a5877abba82b916acd92432720e09a95d507d620c01fabd0143f7460a4d7"]
 ordered-set = ["41c7ba85e7619cd4c71e38d4cd434f84de8473b826919eb79274b3a11b940b4d", "f9b703ea9aa9c1db44412c5ba1c16cf8b7ad7ef37a685e4da2fd3754b40f8f6a"]
+pretty-simple-namespace = ["56b18a978bb5538d259f3fd10680dec04ddfe8bb59b216af61eaf45ed9598a19", "e14a2bd752dd866f5cc1b0d1882272d32f589852e78302a7f40a4c67c6f7a06f"]
 regex = ["15b4a185ae9782133f398f8ab7c29612a6e5f34ea9411e4cd36e91e78c347ebe", "3852b76f0b6d7bd98d328d548716c151b79017f2b81347360f26e5db10fb6503", "79a6a60ed1ee3b12eb0e828c01d75e3b743af6616d69add6c2fde1d425a4ba3f", "a2938c290b3be2c7cadafa21de3051f2ed23bfaf88728a1fe5dc552cbfdb0326", "aff7414712c9e6d260609da9c9af3aacebfbc307a4abe3376c7736e2a6c8563f", "d03782f0b0fa34f8f1dbdc94e27cf193b83c6105307a8c10563938c6d85180d9", "db79ac3d81e655dc12d38a865dd6d1b569a28fab4c53749051cd599a6eb7614f", "e803b3646c3f9c47f1f3dc870173c5d79c0fd2fd8e40bf917b97c7b56701baff", "e9660ccca360b6bd79606aab3672562ebb14bce6af6c501107364668543f4bef"]
 simple-chalk = ["d80f55993dfa040c1b55d2fbfb925e4fbb5798c2934601aa448ef4a192d84196"]
 tedent = ["a2565f469f9044c9f6117962bea67da6ee3b71e112d055128414ba86c15ca1ae", "b83bb8eba0a8c53b1597e3c18a0cefdaeeb83cf64d3f6ca5e5973195778a9eec"]

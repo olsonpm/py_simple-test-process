@@ -2,10 +2,10 @@
 # Imports #
 # ------- #
 
-from simple_test_process.runProcess import runProcess
 from simple_test_process.state import _getState as getTestState
+from types import SimpleNamespace as o
 from . import spyReporter
-from .utils import makeGetPathToFixture
+from .utils import makeGetPathToFixture, runProcess
 
 import sys
 
@@ -21,6 +21,7 @@ fail = getPathToFixture("fail")
 noTests = getPathToFixture("noTests")
 success = getPathToFixture("success")
 successDir = getPathToFixture("successDir")
+noGrepArgs = o(grepTests=[], grepSuites=[], grep=[])
 
 
 # ---- #
@@ -30,31 +31,34 @@ successDir = getPathToFixture("successDir")
 
 def runTests(r):
     sys.path.insert(0, success)
-    code = "runProcess(success, 'theTests.spyReporter', 'False')"
-    result = runProcess(success, "theTests.spyReporter", "False")
+    code = "runProcess(success, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(success, "theTests.spyReporter", "False", noGrepArgs)
     testState = getTestState()
     passed = (
         result.code == 0
         and result.stdout is None
         and result.stderr is None
-        and len(testState.rootTests) == 1
+        and len(testState.tests) == 1
         and spyReporter.lastCalledState.testState is testState
     )
     if not passed:
+        print(result.code)
+        print(result.stdout)
+        print(result.stderr)
         r.addError(code)
 
     #
     # silent
     #
     spyReporter.resetLastCalledState()
-    code = "runProcess(success, 'theTests.spyReporter', 'True')"
-    result = runProcess(success, "theTests.spyReporter", "True")
+    code = "runProcess(success, 'theTests.spyReporter', 'True', noGrepArgs)"
+    result = runProcess(success, "theTests.spyReporter", "True", noGrepArgs)
     testState = getTestState()
     passed = (
         result.code == 0
         and result.stdout is None
         and result.stderr is None
-        and len(testState.rootTests) == 1
+        and len(testState.tests) == 1
         and spyReporter.lastCalledState.wasCalled is False
     )
     if not passed:
@@ -66,16 +70,16 @@ def runTests(r):
     del sys.modules["tests"]
     sys.path[0] = fail
     spyReporter.resetLastCalledState()
-    code = "runProcess(fail, 'theTests.spyReporter', 'False')"
-    result = runProcess(fail, "theTests.spyReporter", "False")
+    code = "runProcess(fail, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(fail, "theTests.spyReporter", "False", noGrepArgs)
     testState = getTestState()
     expectedErrorStr = "test failed"
     passed = (
         result.code == 1
         and result.stdout is None
         and result.stderr is None
-        and len(testState.rootTests) == 1
-        and expectedErrorStr in str(testState.rootTests[0].error)
+        and len(testState.tests) == 1
+        and expectedErrorStr in str(testState.tests[0].error)
         and spyReporter.lastCalledState.wasCalled is True
         and spyReporter.lastCalledState.testState is testState
     )
@@ -88,8 +92,8 @@ def runTests(r):
     del sys.modules["tests"]
     sys.path[0] = error
     spyReporter.resetLastCalledState()
-    code = "runProcess(error, 'theTests.spyReporter', 'False')"
-    result = runProcess(error, "theTests.spyReporter", "False")
+    code = "runProcess(error, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(error, "theTests.spyReporter", "False", noGrepArgs)
     expectedErrorStr = "test import error"
     passed = (
         result.code == 2
@@ -106,14 +110,14 @@ def runTests(r):
     del sys.modules["tests"]
     sys.path[0] = successDir
     spyReporter.resetLastCalledState()
-    code = "runProcess(successDir, 'theTests.spyReporter', 'False')"
-    result = runProcess(successDir, "theTests.spyReporter", "False")
+    code = "runProcess(successDir, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(successDir, "theTests.spyReporter", "False", noGrepArgs)
     testState = getTestState()
     passed = (
         result.code == 0
         and result.stdout is None
         and result.stderr is None
-        and len(testState.rootTests) == 1
+        and len(testState.tests) == 1
         and spyReporter.lastCalledState.wasCalled is True
     )
     if not passed:
@@ -125,19 +129,18 @@ def runTests(r):
     del sys.modules["tests"]
     sys.path[0] = noTests
     spyReporter.resetLastCalledState()
-    code = "runProcess(noTests, 'theTests.spyReporter', 'False')"
-    result = runProcess(noTests, "theTests.spyReporter", "False")
+    code = "runProcess(noTests, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(noTests, "theTests.spyReporter", "False", noGrepArgs)
     testState = getTestState()
     expectedErrorStr = "No tests were found in any python files"
     passed = (
         result.code == 2
         and result.stdout is None
         and expectedErrorStr in result.stderr
-        and len(testState.rootTests) == 0
+        and len(testState.tests) == 0
         and spyReporter.lastCalledState.wasCalled is False
     )
     if not passed:
-        print(len(testState.rootTests))
         r.addError(code)
 
     sys.path.pop(0)

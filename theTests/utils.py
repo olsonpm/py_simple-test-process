@@ -4,9 +4,8 @@
 
 from difflib import Differ
 from os import path
+from simple_test_process.runProcess import runProcess as runProcess_original
 from simple_test_process.fns import joinWith, passThrough
-import subprocess
-import sys
 
 
 # ---- #
@@ -22,18 +21,15 @@ fixturesDir = path.join(path.dirname(__file__), "fixtures")
 # ---- #
 
 
-def run(projectDir, reporter, silent):
-    return subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "simple_test_process",
-            projectDir,
-            reporter,
-            str(silent),
-        ],
-        cwd=projectDir,
+def diff(left, right):
+    result = _d.compare(
+        left.splitlines(keepends=True), right.splitlines(keepends=True)
     )
+    return passThrough(result, [list, joinWith("")])
+
+
+def getModuleBasename(m):
+    return m.__name__.split(".")[-1]
 
 
 def makeGetPathToFixture(baseDir):
@@ -43,12 +39,17 @@ def makeGetPathToFixture(baseDir):
     return getPathToFixture
 
 
-def getModuleBasename(m):
-    return m.__name__.split(".")[-1]
+#
+# I'm not sure how to organize this - as the kwargs are too verbose for a quick
+#   reference as a failed test, but `runProcessWrapper` also pushes the strings
+#   past 80 lines.  Whatever
+#
 
 
-def diff(left, right):
-    result = _d.compare(
-        left.splitlines(keepends=True), right.splitlines(keepends=True)
+def runProcess(projectDir, reporter, silent, grepArgs):
+    return runProcess_original(
+        projectDir=projectDir,
+        reporter=reporter,
+        silent=silent,
+        grepArgs=grepArgs,
     )
-    return passThrough(result, [list, joinWith("")])

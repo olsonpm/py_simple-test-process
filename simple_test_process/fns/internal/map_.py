@@ -2,6 +2,7 @@
 # Imports #
 # ------- #
 
+from types import SimpleNamespace
 from .makeGenericCallFn import makeGenericCallFn
 from .getTypedResult import getTypedResult
 from ..decorators.argIsCallable import argIsCallable
@@ -37,4 +38,12 @@ def map_list(callMapperFn, aList):
     return result
 
 
-typeToMap = {list: map_list}
+def map_simpleNamespace(callMapperFn, aSimpleNamespace):
+    result = SimpleNamespace()
+    for key, val in aSimpleNamespace.__dict__.items():
+        setattr(result, key, callMapperFn(val, key, aSimpleNamespace))
+
+    return result
+
+
+typeToMap = {list: map_list, SimpleNamespace: map_simpleNamespace}

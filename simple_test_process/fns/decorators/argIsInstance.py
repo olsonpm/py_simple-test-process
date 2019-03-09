@@ -8,10 +8,10 @@ def argIsInstance(aType, fnName=None):
     def wrapper(fn, _instance, args, kwargs):
         nonlocal fnName
 
-        typePassed = type(args[0])
-        if not isinstance(typePassed, aType):
+        if not isinstance(args[0], aType):
             argName = list(signature(fn).parameters)[0]
             fnName = fnName or fn.__name__
+            typePassed = type(args[0])
             typeName = aType.__name__
             raise_(
                 ValueError,

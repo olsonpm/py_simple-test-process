@@ -1,8 +1,8 @@
-from copy import copy
+from copy import deepcopy
 from types import SimpleNamespace as o
 
 initialLastCalledState = o(wasCalled=False)
-lastCalledState = copy(initialLastCalledState)
+lastCalledState = deepcopy(initialLastCalledState)
 
 
 def report(state):
@@ -12,4 +12,4 @@ def report(state):
 
 def resetLastCalledState():
     global lastCalledState
-    lastCalledState = copy(initialLastCalledState)
+    lastCalledState = deepcopy(initialLastCalledState)

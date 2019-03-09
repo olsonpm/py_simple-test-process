@@ -2,11 +2,7 @@ from copy import deepcopy
 from types import SimpleNamespace as o
 
 _initialState = o(
-    rootTests=[],
-    rootSuites=[],
-    currentSuite=None,
-    testsFound=False,
-    succeeded=True,
+    tests=[], suites=[], currentSuite=None, testsFound=False, succeeded=True
 )
 
 
@@ -36,7 +32,7 @@ def addSuite(label, fn):
     )
 
     if currentSuite is None:
-        state.rootSuites.append(newSuite)
+        state.suites.append(newSuite)
     else:
         currentSuite.suites.append(newSuite)
 
@@ -49,7 +45,7 @@ def addTest(label, fn):
     test = o(label=label, fn=fn, parentSuite=currentSuite, rootState=state)
 
     if currentSuite is None:
-        state.rootTests.append(test)
+        state.tests.append(test)
     else:
         currentSuite.tests.append(test)
 

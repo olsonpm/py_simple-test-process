@@ -6,14 +6,14 @@ from case_conversion import separate_words
 from .Results import Results
 from .utils import getModuleBasename
 from simple_test_process.fns import forEach, invokeAttr, isLaden
-from . import manyFail, manySuccess, simple
+from . import greppedSuccess, manyFail, manySuccess, simple
 
 
 # ---- #
 # Init #
 # ---- #
 
-modules = [simple, manySuccess, manyFail]
+modules = [simple, manySuccess, manyFail, greppedSuccess]
 
 
 # ---- #

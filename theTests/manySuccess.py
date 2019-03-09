@@ -10,10 +10,10 @@
 # ------- #
 
 from num2words import num2words
-from simple_test_process.runProcess import runProcess
 from simple_test_process.state import _getState as getTestState
+from types import SimpleNamespace as o
 from . import spyReporter
-from .utils import makeGetPathToFixture
+from .utils import makeGetPathToFixture, runProcess
 
 import sys
 
@@ -25,6 +25,7 @@ import sys
 getPathToFixture = makeGetPathToFixture("many")
 
 success = getPathToFixture("success")
+noGrepArgs = o(grepTests=[], grepSuites=[], grep=[])
 
 
 # ---- #
@@ -34,8 +35,8 @@ success = getPathToFixture("success")
 
 def runTests(r):
     sys.path.insert(0, success)
-    code = "runProcess(success, 'theTests.spyReporter', 'False')"
-    result = runProcess(success, "theTests.spyReporter", "False")
+    code = "runProcess(success, 'theTests.spyReporter', 'False', noGrepArgs)"
+    result = runProcess(success, "theTests.spyReporter", "False", noGrepArgs)
     testState = getTestState()
     passed = (
         result.code == 0
@@ -61,7 +62,7 @@ def runTests(r):
 
 def hasExpectedRootTests(state):
     for i in range(1, 6):
-        test = state.rootTests[i - 1]
+        test = state.tests[i - 1]
         testIsCorrect = (
             test.label == num2words(i) + " test"
             and test.fn.__name__ == num2words(i) + "Test"
@@ -77,8 +78,8 @@ def hasExpectedRootTests(state):
 
 
 def hasExpectedRootSuites(state):
-    suite1 = state.rootSuites[0]
-    suite2 = state.rootSuites[1]
+    suite1 = state.suites[0]
+    suite2 = state.suites[1]
 
     return (
         suite1.label == "one suite"
@@ -97,9 +98,9 @@ def hasExpectedRootSuites(state):
 
 
 def hasExpectedNestedTests(state):
-    suite1 = state.rootSuites[0]
-    suite2 = state.rootSuites[1]
-    subSuite1 = state.rootSuites[1].suites[0]
+    suite1 = state.suites[0]
+    suite2 = state.suites[1]
+    subSuite1 = state.suites[1].suites[0]
 
     subTest1 = suite1.tests[0]
     subTest2 = suite1.tests[1]
@@ -131,14 +132,14 @@ def hasExpectedNestedTests(state):
 
 
 def hasExpectedNestedSuites(state):
-    subSuite1 = state.rootSuites[1].suites[0]
+    subSuite1 = state.suites[1].suites[0]
 
     return (
         subSuite1.label == "sub suite 1"
         and subSuite1.fn.__name__ == "subSuite1"
         and len(subSuite1.tests) == 1
         and subSuite1.suites == []
-        and subSuite1.parentSuite is state.rootSuites[1]
+        and subSuite1.parentSuite is state.suites[1]
         and subSuite1.rootState is state
         and subSuite1.succeeded
     )

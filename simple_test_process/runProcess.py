@@ -3,10 +3,11 @@
 # ------- #
 
 from os import path
-from textwrap import dedent
+from tedent import tedent
 from traceback import format_exc
 from types import SimpleNamespace as o
-from .fns import forEach, iif
+from .fns import forEach, iif, isEmpty, joinWith, map_, passThrough, prependStr
+from .onlyKeepGreppedTests import onlyKeepGreppedTests
 from .runAllTests import runAllTests
 from .state import initState
 from .utils import gatherTests, importTests, twoLineSeps
@@ -19,15 +20,8 @@ import toml
 # Main #
 # ---- #
 
-#
-# When this function is called we can assume
-#  - projectDir exists on the file system
-#  - reporter is a non-relative module name
-#  - silent is a string boolean
-#
 
-
-def runProcess(projectDir, reporter, silent):
+def runProcess(*, projectDir, reporter, silent, grepArgs):
     try:
         silent = silent == "True"
         cliResult = o(stderr=None, stdout=None, code=None)
@@ -52,12 +46,13 @@ def runProcess(projectDir, reporter, silent):
         state = initState()
         importTests(projectDir)
 
-        forEach(gatherTests)(state.rootSuites)
+        forEach(gatherTests)(state.suites)
+        onlyKeepGreppedTests(state, grepArgs)
         runAllTests(state)
 
         if not state.testsFound:
             if not silent:
-                cliResult.stderr = dedent(
+                cliResult.stderr = tedent(
                     f"""
                     No tests were found in any python files under the project's
                     tests directory: '{path.join(projectDir, 'tests')}'
@@ -65,6 +60,16 @@ def runProcess(projectDir, reporter, silent):
                     Remember you define tests by decorating a function with
                     @test("test label")
                     """
+                )
+
+            cliResult.code = 2
+            return cliResult
+
+        if isEmpty(state.tests) and isEmpty(state.suites):
+            # grepArgs must contain something if this code is reached
+            if not silent:
+                cliResult.stderr = (
+                    "Your grep options failed to match any suites or tests"
                 )
 
             cliResult.code = 2
@@ -95,6 +100,17 @@ def runProcess(projectDir, reporter, silent):
 # ------- #
 # Helpers #
 # ------- #
+
+
+def toFormattedGrepArgs(greppedStrings, grepKey):
+    return (
+        grepKey
+        + ":"
+        + os.linesep
+        + passThrough(
+            greppedStrings, [map_(prependStr("  ")), joinWith(os.linesep)]
+        )
+    )
 
 
 def getValueAtPath(aDict, pathToValue):

@@ -11,19 +11,14 @@ from .fns import forEach
 # ---- #
 
 
-def runAllTests(state):
-    forEach(runTest)(state.rootTests)
-    forEach(runSuiteTests)(state.rootSuites)
+def runAllTests(stateOrSuite):
+    forEach(runTest)(stateOrSuite.tests)
+    forEach(runAllTests)(stateOrSuite.suites)
 
 
 # ------- #
 # Helpers #
 # ------- #
-
-
-def runSuiteTests(aSuite):
-    forEach(runTest)(aSuite.tests)
-    forEach(runSuiteTests)(aSuite.suites)
 
 
 def runTest(aTest):
