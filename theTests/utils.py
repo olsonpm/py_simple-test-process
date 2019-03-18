@@ -6,6 +6,7 @@ from difflib import Differ
 from os import path
 from simple_test_process.runProcess import runProcess as runProcess_original
 from simple_test_process.fns import joinWith, passThrough
+import os
 
 
 # ---- #
@@ -47,9 +48,10 @@ def makeGetPathToFixture(baseDir):
 
 
 def runProcess(projectDir, reporter, silent, grepArgs):
-    return runProcess_original(
-        projectDir=projectDir,
-        reporter=reporter,
-        silent=silent,
-        grepArgs=grepArgs,
+    oldCwd = os.getcwd()
+    os.chdir(projectDir)
+    result = runProcess_original(
+        reporter=reporter, silent=silent, grepArgs=grepArgs
     )
+    os.chdir(oldCwd)
+    return result

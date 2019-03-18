@@ -6,14 +6,24 @@ from os import path
 from tedent import tedent
 from traceback import format_exc
 from types import SimpleNamespace as o
-from .fns import forEach, iif, isEmpty, joinWith, map_, passThrough, prependStr
 from .onlyKeepGreppedTests import onlyKeepGreppedTests
 from .runAllTests import runAllTests
 from .state import initState
-from .utils import gatherTests, importTests, twoLineSeps
+from .utils import gatherTests, importTests, makeCmd, twoLineSeps
 from .validateAndGetReportFn import validateAndGetReportFn
 import os
 import toml
+
+from .fns import (
+    forEach,
+    iif,
+    isEmpty,
+    joinWith,
+    map_,
+    noop,
+    passThrough,
+    prependStr,
+)
 
 
 # ---- #
@@ -21,10 +31,12 @@ import toml
 # ---- #
 
 
-def runProcess(*, projectDir, reporter, silent, grepArgs):
+def runProcess(*, reporter, silent, grepArgs):
     try:
         silent = silent == "True"
         cliResult = o(stderr=None, stdout=None, code=None)
+        after = noop
+        before = noop
 
         if not silent:
             validationResult = validateAndGetReportFn(
@@ -35,16 +47,27 @@ def runProcess(*, projectDir, reporter, silent, grepArgs):
                 return validationResult.cliResult
 
             report = validationResult.report
-            pyprojectTomlPath = path.join(projectDir, "pyproject.toml")
             reportOpts = None
-            if path.isfile(pyprojectTomlPath):
-                allProjectSettings = toml.load(pyprojectTomlPath)
+            if path.isfile("pyproject.toml"):
+                allProjectSettings = toml.load("pyproject.toml")
                 result = getValueAtPath(allProjectSettings, ["tool", reporter])
                 if result.hasValue:
                     reportOpts = result.value
 
+                result = getValueAtPath(
+                    allProjectSettings, ["tool", "simple_test"]
+                )
+                if result.hasValue:
+                    if "before" in result.value:
+                        before = makeCmd(result.value["before"], "before")
+
+                    if "after" in result.value:
+                        after = makeCmd(result.value["after"], "after")
+
         state = initState()
-        importTests(projectDir)
+        state.before = before
+        state.after = after
+        importTests()
 
         forEach(gatherTests)(state.suites)
         onlyKeepGreppedTests(state, grepArgs)
@@ -55,7 +78,7 @@ def runProcess(*, projectDir, reporter, silent, grepArgs):
                 cliResult.stderr = tedent(
                     f"""
                     No tests were found in any python files under the project's
-                    tests directory: '{path.join(projectDir, 'tests')}'
+                    tests directory: '{path.join(os.getcwd(), 'tests')}'
 
                     Remember you define tests by decorating a function with
                     @test("test label")

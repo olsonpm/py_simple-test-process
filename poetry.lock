@@ -98,12 +98,36 @@ ordered_set = ">=3.1,<4.0"
 wrapt = ">=1.10,<2.0"
 
 [[package]]
+category = "dev"
+description = "replace '__all__' with '@public.add' decorator"
+name = "public"
+optional = false
+python-versions = "*"
+version = "2018.11.20"
+
+[package.dependencies]
+setuptools = "*"
+
+[[package]]
 category = "main"
 description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
 python-versions = "*"
 version = "2018.11.22"
+
+[[package]]
+category = "dev"
+description = "rm(path) function - remove files and directories"
+name = "rm"
+optional = false
+python-versions = "*"
+version = "2018.11.20"
+
+[package.dependencies]
+public = "*"
+setuptools = "*"
+values = "*"
 
 [[package]]
 category = "main"
@@ -134,6 +158,18 @@ python-versions = "*"
 version = "0.10.0"
 
 [[package]]
+category = "dev"
+description = "values.get(input) - create list from input"
+name = "values"
+optional = false
+python-versions = "*"
+version = "2018.11.22"
+
+[package.dependencies]
+public = "*"
+setuptools = "*"
+
+[[package]]
 category = "main"
 description = "Module for decorators, wrappers and monkey patching."
 name = "wrapt"
@@ -142,7 +178,7 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "ca15a406c6d612413a77f07ab3944e1693b4558a430a75352ff2f96d4c6c98c5"
+content-hash = "561e4713deeaa7f935e45e3bc30239b54a80f9f45db60213ddbfc508a737ed82"
 python-versions = "^3.7"
 
 [metadata.hashes]
@@ -155,8 +191,11 @@ is-git-repo-clean = ["608c8585be23478af5c6c68e53f4a8ddd1320d3dd478ebc894c07ab6b7
 num2words = ["60ba89db4913820885e6974cf329d9a02846f3b612c383fbbb2b66997cc1f6e1", "f923a5877abba82b916acd92432720e09a95d507d620c01fabd0143f7460a4d7"]
 ordered-set = ["41c7ba85e7619cd4c71e38d4cd434f84de8473b826919eb79274b3a11b940b4d", "f9b703ea9aa9c1db44412c5ba1c16cf8b7ad7ef37a685e4da2fd3754b40f8f6a"]
 pretty-simple-namespace = ["56b18a978bb5538d259f3fd10680dec04ddfe8bb59b216af61eaf45ed9598a19", "e14a2bd752dd866f5cc1b0d1882272d32f589852e78302a7f40a4c67c6f7a06f"]
+public = ["4f104163de000e4d430c03a91ac8918a8d615e2452007ee7108dcc4e5caa2f6c", "b2250d4aca6719b66090402400de22777a37b0d2e9ac3ff74dc3f348725090fa"]
 regex = ["15b4a185ae9782133f398f8ab7c29612a6e5f34ea9411e4cd36e91e78c347ebe", "3852b76f0b6d7bd98d328d548716c151b79017f2b81347360f26e5db10fb6503", "79a6a60ed1ee3b12eb0e828c01d75e3b743af6616d69add6c2fde1d425a4ba3f", "a2938c290b3be2c7cadafa21de3051f2ed23bfaf88728a1fe5dc552cbfdb0326", "aff7414712c9e6d260609da9c9af3aacebfbc307a4abe3376c7736e2a6c8563f", "d03782f0b0fa34f8f1dbdc94e27cf193b83c6105307a8c10563938c6d85180d9", "db79ac3d81e655dc12d38a865dd6d1b569a28fab4c53749051cd599a6eb7614f", "e803b3646c3f9c47f1f3dc870173c5d79c0fd2fd8e40bf917b97c7b56701baff", "e9660ccca360b6bd79606aab3672562ebb14bce6af6c501107364668543f4bef"]
+rm = ["4a4272fe2e8fff9d5e2bdcdee6344dfc3961e8637ad9da4d44e54e459bf847a6", "d23c568b31a9616d865e8d5b06becae56bf69a5a5e7e391aba48c2b88c12bb23"]
 simple-chalk = ["d80f55993dfa040c1b55d2fbfb925e4fbb5798c2934601aa448ef4a192d84196"]
 tedent = ["a2565f469f9044c9f6117962bea67da6ee3b71e112d055128414ba86c15ca1ae", "b83bb8eba0a8c53b1597e3c18a0cefdaeeb83cf64d3f6ca5e5973195778a9eec"]
 toml = ["229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c", "235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e", "f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"]
+values = ["190c0abf6630a797c29010ebd47e99265d8d89cdc1e4d9a4e03534db3fd492ab", "5ad6ae68e32deebaddf303c6f08e2f55706fdb27e9b11af41476419c2feb1a67"]
 wrapt = ["4aea003270831cceb8a90ff27c4031da6ead7ec1886023b80ce0dfe0adf61533"]

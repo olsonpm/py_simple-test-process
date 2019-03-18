@@ -45,14 +45,12 @@ _availableGrepArgsKeys = toWrittenList(_grepArgsKeys)
 
 #
 # We can assume the argument order
-#   0    projectDir
-#   1    reporter
-#   2    silent
-#   3?+  grep | grepSuites | grepTests
+#   0    reporter
+#   1    silent
+#   2?+  grep | grepSuites | grepTests
 #
 #
 # and we can also assume
-#  - projectDir exists on the file system
 #  - reporter is a non-relative module name
 #  - silent is a string boolean
 #  - grepArgs may or may not exist.  Validation is only for debugging purposes
@@ -62,12 +60,7 @@ _availableGrepArgsKeys = toWrittenList(_grepArgsKeys)
 
 
 def parseArgs(*args):
-    return o(
-        projectDir=args[0],
-        reporter=args[1],
-        silent=args[2],
-        grepArgs=parseGrepArgs(args[3:]),
-    )
+    return o(reporter=args[0], silent=args[1], grepArgs=parseGrepArgs(args[2:]))
 
 
 # ------- #

@@ -4,19 +4,21 @@
 
 from glob import glob
 from os import path
+from subprocess import run
 from .suite import suite
 from .test import test
 import importlib.util
 import os
+import sys
 
 from .fns import (
-    discardFirst,
     discardWhen,
     endsWith,
     forEach,
     joinWith,
     map_,
     passThrough,
+    raise_,
     split,
 )
 
@@ -44,16 +46,14 @@ def gatherTests(aSuite):
 # I can't find a clean way to do this so I'm rolling my own.  The python
 #   import system is inherently hacky anyway :(
 #
-def importTests(projectDir):
-    testsDir = path.join(projectDir, "tests")
-    globStr = path.join(testsDir, "**/*.py")
+def importTests():
+    globStr = path.join("tests", "**", "*.py")
 
     passThrough(
         globStr,
         [
             recursiveGlob,
             discardWhen(endsWith("__init__.py")),
-            map_(discardFirst(len(projectDir + "/"))),
             map_(toModulePath),
             forEach(importModule),
         ],
@@ -69,6 +69,34 @@ def importModule(modulePath):
         spec.loader.exec_module(testModule)
     except Exception as e:
         raise Exception(f"Error occurred while importing '{modulePath}'") from e
+
+
+def makeCmd(someStr, beforeOrAfter):
+    fname = someStr.strip()
+    _base, ext = path.splitext(fname)
+
+    # not sure why this is necessary :(
+    relativeFname = path.join(".", fname)
+
+    if ext == ".py":
+        return lambda: run([sys.executable, relativeFname])
+    elif ext == ".sh":
+        return lambda: run([relativeFname])
+
+    raise_(
+        ValueError,
+        f"""
+        incorrect value found in pyproject.toml
+          -> tool.simple_test
+          -> {beforeOrAfter}
+
+        file extension must be .py or .sh.
+        extension found: '{ext}'
+
+        full path to pyproject.toml:
+        {path.join(os.getcwd(), "pyproject.toml")}
+        """,
+    )
 
 
 def recursiveGlob(globStr):

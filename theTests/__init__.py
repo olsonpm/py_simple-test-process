@@ -6,14 +6,29 @@ from case_conversion import separate_words
 from .Results import Results
 from .utils import getModuleBasename
 from simple_test_process.fns import forEach, invokeAttr, isLaden
-from . import beforeAndAfterEach, greppedSuccess, manyFail, manySuccess, simple
+
+from . import (
+    beforeAndAfterEach,
+    beforeAndAfterPyproject,
+    greppedSuccess,
+    manyFail,
+    manySuccess,
+    simple,
+)
 
 
 # ---- #
 # Init #
 # ---- #
 
-modules = [simple, manySuccess, manyFail, greppedSuccess, beforeAndAfterEach]
+modules = [
+    simple,
+    manySuccess,
+    manyFail,
+    greppedSuccess,
+    beforeAndAfterEach,
+    beforeAndAfterPyproject,
+]
 
 
 # ---- #

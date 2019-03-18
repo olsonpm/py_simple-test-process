@@ -1,0 +1,3 @@
+[tool.simple_test]
+before = "before.sh"
+after = "after.py"
