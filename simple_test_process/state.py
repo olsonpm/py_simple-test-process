@@ -1,8 +1,17 @@
-from copy import deepcopy
+from copy import copy, deepcopy
 from types import SimpleNamespace as o
+from .fns import appendOne, assign, noop
 
 _initialState = o(
-    tests=[], suites=[], currentSuite=None, testsFound=False, succeeded=True
+    tests=[],
+    suites=[],
+    currentSuite=None,
+    testsFound=False,
+    succeeded=True,
+    after=noop,
+    afterEach=[],
+    before=noop,
+    beforeEach=[],
 )
 
 
@@ -19,30 +28,66 @@ def initState():
     return state
 
 
-def addSuite(label, fn):
-    currentSuite = state.currentSuite
-    newSuite = o(
+def _getCommon(*, label, fn, parentSuite, rootState, after, before):
+    return o(
         label=label,
         fn=fn,
-        tests=[],
-        suites=[],
-        parentSuite=currentSuite,
-        rootState=state,
-        succeeded=True,
+        parentSuite=parentSuite,
+        rootState=rootState,
+        after=after,
+        before=before,
     )
 
-    if currentSuite is None:
-        state.suites.append(newSuite)
+
+def addSuite(label, after, afterEach, before, beforeEach, fn):
+    currentSuite = state.currentSuite
+    parent = currentSuite or state
+
+    if afterEach is noop:
+        afterEach = copy(parent.afterEach)
     else:
-        currentSuite.suites.append(newSuite)
+        afterEach = appendOne(afterEach)(parent.afterEach)
+
+    if beforeEach is noop:
+        beforeEach = copy(parent.beforeEach)
+    else:
+        beforeEach = appendOne(beforeEach)(parent.beforeEach)
+
+    newSuite = assign(
+        o(
+            tests=[],
+            suites=[],
+            succeeded=True,
+            afterEach=afterEach,
+            beforeEach=beforeEach,
+        )
+    )(
+        _getCommon(
+            label=label,
+            fn=fn,
+            parentSuite=currentSuite,
+            rootState=state,
+            after=after,
+            before=before,
+        )
+    )
+
+    parent.suites.append(newSuite)
 
     return state
 
 
-def addTest(label, fn):
+def addTest(label, after, before, fn):
     global state
     currentSuite = state.currentSuite
-    test = o(label=label, fn=fn, parentSuite=currentSuite, rootState=state)
+    test = _getCommon(
+        label=label,
+        fn=fn,
+        parentSuite=currentSuite,
+        rootState=state,
+        after=after,
+        before=before,
+    )
 
     if currentSuite is None:
         state.tests.append(test)

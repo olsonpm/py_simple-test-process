@@ -42,9 +42,6 @@ def runTests(r):
         and spyReporter.lastCalledState.testState is testState
     )
     if not passed:
-        print(result.code)
-        print(result.stdout)
-        print(result.stderr)
         r.addError(code)
 
     #
