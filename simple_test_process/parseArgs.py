@@ -2,10 +2,9 @@
 # Imports #
 # ------- #
 
-from case_conversion import camelcase
+from ._vendor.case_conversion import camelcase, dashcase
 from copy import deepcopy
 from types import SimpleNamespace as o
-import case_conversion
 
 from .fns import (
     getListOfCollectionKeys,

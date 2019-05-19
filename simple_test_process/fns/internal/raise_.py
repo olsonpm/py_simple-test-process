@@ -1,4 +1,4 @@
-from tedent import tedent
+from ..._vendor.tedent import tedent
 from .isOnlyWhitespace import isOnlyWhitespace
 import os
 

@@ -3,7 +3,7 @@
 # ------- #
 
 from os import path
-from tedent import tedent
+from ._vendor.tedent import tedent
 from traceback import format_exc
 from types import SimpleNamespace as o
 from .onlyKeepGreppedTests import onlyKeepGreppedTests
@@ -12,18 +12,9 @@ from .state import initState
 from .utils import gatherTests, importTests, makeCmd, twoLineSeps
 from .validateAndGetReportFn import validateAndGetReportFn
 import os
-import toml
+from ._vendor import toml
 
-from .fns import (
-    forEach,
-    iif,
-    isEmpty,
-    joinWith,
-    map_,
-    noop,
-    passThrough,
-    prependStr,
-)
+from .fns import forEach, iif, isEmpty, joinWith, map_, noop, passThrough, prependStr
 
 
 # ---- #
@@ -39,9 +30,7 @@ def runProcess(*, reporter, silent, grepArgs):
         before = noop
 
         if not silent:
-            validationResult = validateAndGetReportFn(
-                reporter, silent, cliResult
-            )
+            validationResult = validateAndGetReportFn(reporter, silent, cliResult)
 
             if validationResult.hasError:
                 return validationResult.cliResult
@@ -54,9 +43,7 @@ def runProcess(*, reporter, silent, grepArgs):
                 if result.hasValue:
                     reportOpts = result.value
 
-                result = getValueAtPath(
-                    allProjectSettings, ["tool", "simple_test"]
-                )
+                result = getValueAtPath(allProjectSettings, ["tool", "simple_test"])
                 if result.hasValue:
                     if "before" in result.value:
                         before = makeCmd(result.value["before"], "before")
@@ -130,9 +117,7 @@ def toFormattedGrepArgs(greppedStrings, grepKey):
         grepKey
         + ":"
         + os.linesep
-        + passThrough(
-            greppedStrings, [map_(prependStr("  ")), joinWith(os.linesep)]
-        )
+        + passThrough(greppedStrings, [map_(prependStr("  ")), joinWith(os.linesep)])
     )
 
 

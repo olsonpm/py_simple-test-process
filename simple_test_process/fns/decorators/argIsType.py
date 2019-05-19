@@ -1,6 +1,6 @@
 from inspect import signature
 from ..internal.raise_ import raise_
-import wrapt
+from ..._vendor import wrapt
 
 
 def argIsType(aType):
