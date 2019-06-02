@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simple_test_process"
-version = "0.4.2"
+version = "0.4.3"
 description = "The process ran by simple_test to isolate the environment"
 authors = ["Philip Olson <philip.olson@pm.me>"]
 license = "WTFNMFPL-1.0"

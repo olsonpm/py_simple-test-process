@@ -21,13 +21,13 @@ from .fns import (
 # ---- #
 
 #
-# case_conversion.dashcase takes more than a single argument so `map_` will pass
-#   it the index and original array which may screw things up
+# dashcase takes more than a single argument so `map_` will pass it the index
+#   and original array which may screw things up
 #
 
 
 def dashcase(aString):
-    return case_conversion.dashcase(aString)
+    return dashcase(aString)
 
 
 _grepArgs = o(grep=[], grepSuites=[], grepTests=[])
