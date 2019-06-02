@@ -13,6 +13,7 @@ from .utils import gatherTests, importTests, makeCmd, twoLineSeps
 from .validateAndGetReportFn import validateAndGetReportFn
 import os
 from ._vendor import toml
+from ._vendor import simple_test_default_reporter
 
 from .fns import forEach, iif, isEmpty, joinWith, map_, noop, passThrough, prependStr
 
@@ -30,12 +31,16 @@ def runProcess(*, reporter, silent, grepArgs):
         before = noop
 
         if not silent:
-            validationResult = validateAndGetReportFn(reporter, silent, cliResult)
+            if reporter == "None":
+                report = simple_test_default_reporter.report
+            else:
+                validationResult = validateAndGetReportFn(reporter, silent, cliResult)
 
-            if validationResult.hasError:
-                return validationResult.cliResult
+                if validationResult.hasError:
+                    return validationResult.cliResult
 
-            report = validationResult.report
+                report = validationResult.report
+
             reportOpts = None
             if path.isfile("pyproject.toml"):
                 allProjectSettings = toml.load("pyproject.toml")

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simple_test_process"
-version = "0.4.1"
+version = "0.4.2"
 description = "The process ran by simple_test to isolate the environment"
 authors = ["Philip Olson <philip.olson@pm.me>"]
 license = "WTFNMFPL-1.0"
@@ -31,6 +31,7 @@ packages = [
   "wrapt >=1.10,<1.11",
   "ordered_set >=3.1,<3.2",
   "tedent >=0.1.5,<0.2",
+  "simple_test_default_reporter >=0.2.0,<0.3",
 ]
 
 [build-system]
