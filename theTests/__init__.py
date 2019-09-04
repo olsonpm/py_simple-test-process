@@ -2,7 +2,7 @@
 # Imports #
 # ------- #
 
-from case_conversion import separate_words
+from po.case_conversion import separate_words
 from .Results import Results
 from .utils import getModuleBasename
 from simple_test_process.fns import forEach, invokeAttr, isLaden

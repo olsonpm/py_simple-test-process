@@ -2,8 +2,8 @@
 # Imports #
 # ------- #
 
-from ._vendor import case_conversion
-from ._vendor.case_conversion import camelcase, dashcase
+from ._vendor.po import case_conversion
+from ._vendor.po.case_conversion import camelcase, dashcase
 from copy import deepcopy
 from types import SimpleNamespace as o
 
@@ -25,8 +25,6 @@ from .fns import (
 # case_conversion.dashcase takes more than a single argument so `map_` will pass
 #   it the index and original array which may screw things up
 #
-
-
 def dashcase(aString):
     return case_conversion.dashcase(aString)
 
@@ -57,8 +55,6 @@ _availableGrepArgsKeys = toWrittenList(_grepArgsKeys)
 #    as calling code should be reliable.
 #
 #
-
-
 def parseArgs(*args):
     return o(reporter=args[0], silent=args[1], grepArgs=parseGrepArgs(args[2:]))
 

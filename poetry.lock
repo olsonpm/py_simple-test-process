@@ -30,17 +30,6 @@ toml = ">=0.9.4"
 
 [[package]]
 category = "dev"
-description = "Convert between different types of cases (unicode supported)"
-name = "case-conversion"
-optional = false
-python-versions = "*"
-version = "2.1.0"
-
-[package.dependencies]
-regex = ">=2016.2.25"
-
-[[package]]
-category = "dev"
 description = "Composable command line interface toolkit"
 name = "click"
 optional = false
@@ -76,6 +65,14 @@ docopt = ">=0.6.2"
 
 [[package]]
 category = "dev"
+description = "Convert between different types of cases (unicode supported)"
+name = "po.case-conversion"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "0.2.0"
+
+[[package]]
+category = "dev"
 description = "replace '__all__' with '@public.add' decorator"
 name = "public"
 optional = false
@@ -84,14 +81,6 @@ version = "2018.11.20"
 
 [package.dependencies]
 setuptools = "*"
-
-[[package]]
-category = "dev"
-description = "Alternative regular expression module, to replace re."
-name = "regex"
-optional = false
-python-versions = "*"
-version = "2019.04.14"
 
 [[package]]
 category = "dev"
@@ -135,20 +124,19 @@ public = "*"
 setuptools = "*"
 
 [metadata]
-content-hash = "7b7775582fe108db41128637f48f53208e47932ca5dbe86ec3a96e6796bb63a1"
+content-hash = "ead9f48cb13c16710c4959ac66e0519b96f8050e5053a7b1b0d14d837fc4cef8"
 python-versions = "^3.7"
 
 [metadata.hashes]
 appdirs = ["9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92", "d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e"]
 attrs = ["69c0dbf2ed392de1cb5ec704444b08a5ef81680a61cb899dc08127123af36a79", "f0b870f674851ecbfbbbd364d6b5cbdff9dcedbc7f3f5e18a6891057f21fe399"]
 black = ["817243426042db1d36617910df579a54f1afd659adb96fc5032fcf4b36209739", "e030a9a28f542debc08acceb273f228ac422798e5215ba2a791a6ddeaaca22a5"]
-case-conversion = ["4114aaed4213f2235f1648502fd1793e5fdfa3fa86f85979fd2d0dce1584e197"]
 click = ["2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13", "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"]
 docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
 is-git-repo-clean = ["608c8585be23478af5c6c68e53f4a8ddd1320d3dd478ebc894c07ab6b702dc00", "c33ec4893389943c6f2b7351ff65904726640861b444ec37b3afb8870a9917fa"]
 num2words = ["0b6e5f53f11d3005787e206d9c03382f459ef048a43c544e3db3b1e05a961548", "37cd4f60678f7e1045cdc3adf6acf93c8b41bf732da860f97d301f04e611cc57"]
+"po.case-conversion" = ["dae8c8c75f17300a5c777c9c76885216035da65656e5c945ec0bf66d3672d3ea", "fe8455059124c463cecd2e4d6eecb80519d19918786cbce6162ef8b3a9aa0b1c"]
 public = ["4f104163de000e4d430c03a91ac8918a8d615e2452007ee7108dcc4e5caa2f6c", "b2250d4aca6719b66090402400de22777a37b0d2e9ac3ff74dc3f348725090fa"]
-regex = ["020429dcf9b76cc7648a99c81b3a70154e45afebc81e0b85364457fe83b525e4", "0552802b1c3f3c7e4fee8c85e904a13c48226020aa1a0593246888a1ac55aaaf", "308965a80b92e1fec263ac1e4f1094317809a72bc4d26be2ec8a5fd026301175", "4d627feef04eb626397aa7bdec772774f53d63a1dc7cc5ee4d1bd2786a769d19", "93d1f9fcb1d25e0b4bd622eeba95b080262e7f8f55e5b43c76b8a5677e67334c", "c3859bbf29b1345d694f069ddfe53d6907b0393fda5e3794c800ad02902d78e9", "d56ce4c7b1a189094b9bee3b81c4aeb3f1ba3e375e91627ec8561b6ab483d0a8", "ebc5ef4e10fa3312fa1967dc0a894e6bd985a046768171f042ac3974fadc9680", "f9cd39066048066a4abe4c18fb213bc541339728005e72263f023742fb912585"]
 rm = ["4a4272fe2e8fff9d5e2bdcdee6344dfc3961e8637ad9da4d44e54e459bf847a6", "d23c568b31a9616d865e8d5b06becae56bf69a5a5e7e391aba48c2b88c12bb23"]
 simple-chalk = ["d80f55993dfa040c1b55d2fbfb925e4fbb5798c2934601aa448ef4a192d84196"]
 toml = ["229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c", "235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e", "f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"]
