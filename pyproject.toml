@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simple_test_process"
-version = "0.4.5"
+version = "0.5.0"
 description = "The process ran by simple_test to isolate the environment"
 authors = ["Philip Olson <philip.olson@pm.me>"]
 license = "WTFNMFPL-1.0"
@@ -18,7 +18,7 @@ python = "^3.7"
 toml = "^0.10.0"
 is_git_repo_clean = "^0.3.4"
 rm = "^2018.11"
-black = {version = "^18.3-alpha.0",allows-prereleases = true}
+black = {version = "^18.3-alpha.0", allows-prereleases = true}
 simple_chalk = "^0.1.0"
 num2words = "^0.5.10"
 "po.case_conversion" = "0.2.0"
